@@ -32,7 +32,8 @@ func (p *Processor) doCmd(text string, chatID int, username string) error {
 	case StartCmd:
 		return p.sandStart(chatID)
 	default:
-		return p.tg.SendMessage(chatID, msgUnknownCommand)
+		// return p.tg.SendMessage(chatID, msgUnknownCommand)
+		return nil
 	}
 }
 

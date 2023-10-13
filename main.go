@@ -1,8 +1,8 @@
 package main
 
 import (
-	"flag"
 	"log"
+	"os"
 
 	tgClient "example/hello/clients/telegram"
 	event_consumer "example/hello/events/consumer/event-consumer"
@@ -29,23 +29,10 @@ func main() {
 }
 
 func mustToken() string {
-	token := flag.String("tg-bot-token", "", "Токен для использования telegram бота")
-
-	flag.Parse()
-
-	if *token == "" {
+	token, ok := os.LookupEnv("TOKEN")
+	if !ok {
 		log.Fatal("Нет токена")
 	}
-	return *token
+
+	return token
 }
-
-// func mustHost() string {
-// 	host := flag.String("host-bot-host", "", "Хост для использования telegram бота")
-
-// 	flag.Parse()
-
-// 	if *host == "" {
-// 		log.Fatal("Нет хоста")
-// 	}
-// 	return *host
-// }

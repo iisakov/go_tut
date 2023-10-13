@@ -1,2 +1,4 @@
 /.vscode
 file_storage/*
+.env
+app
