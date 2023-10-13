@@ -21,8 +21,8 @@ type Client struct {
 	client   http.Client
 }
 
-func New(host, token string) Client {
-	return Client{
+func New(host, token string) *Client {
+	return &Client{
 		host:     host,
 		basePath: newBasePath(token),
 		client:   http.Client{},
@@ -33,7 +33,7 @@ func newBasePath(token string) string {
 	return "bot" + token
 }
 
-func (c Client) Updates(offset, limit int) ([]Updates, error) {
+func (c *Client) Updates(offset, limit int) ([]Updates, error) {
 	query := url.Values{}
 	query.Add("offset", strconv.Itoa(offset))
 	query.Add("limit", strconv.Itoa(limit))
@@ -51,9 +51,9 @@ func (c Client) Updates(offset, limit int) ([]Updates, error) {
 	return response.Result, nil
 }
 
-func (c Client) SendMessage(chatId int, text string) error {
+func (c *Client) SendMessage(chatId int, text string) error {
 	query := url.Values{}
-	query.Add("chatId", strconv.Itoa(chatId))
+	query.Add("chat_id", strconv.Itoa(chatId))
 	query.Add("text", text)
 
 	_, err := c.doResponse(sendMessageMethod, query)
@@ -64,7 +64,7 @@ func (c Client) SendMessage(chatId int, text string) error {
 	return nil
 }
 
-func (c Client) doResponse(method string, query url.Values) (date []byte, err error) {
+func (c *Client) doResponse(method string, query url.Values) (date []byte, err error) {
 	const errMsg = "Ошибка при request:"
 	defer func() { err = errl.WrapIfErr(errMsg, err) }()
 

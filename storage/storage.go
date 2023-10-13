@@ -2,10 +2,13 @@ package storage
 
 import (
 	"crypto/sha1"
+	"errors"
 	errl "example/hello/lib"
 	"fmt"
 	"io"
 )
+
+var ErrNoSavedPages = errors.New("нет сохранённых страниц")
 
 type Storage interface {
 	Save(p *Page) error
